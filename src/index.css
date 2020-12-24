@@ -3,11 +3,18 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
-  -webkit-font-smoothing: antialiased;
+/*  -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+*/
+  background: rgb(170,116,57);
+  background: linear-gradient(90deg, rgba(170,116,57,1) 0%, rgba(231,189,143,1) 30%, rgba(92,129,145,1) 60%, rgba(39,86,107,1) 75%, rgba(6,50,68,1) 90%, rgba(0,21,30,1) 100%); 
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+button {
+	cursor: pointer;
 }
