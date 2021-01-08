@@ -1,136 +1,62 @@
-import './App.css';
 import Navigation from './components/navigation/Navigation';
 import Logo from './components/logo/Logo';
 import ImageLinkForm from './components/imagelinkform/ImageLinkForm';
 import Rank from './components/rank/Rank';
-import Particles from 'react-particles-js';
 import React, { Component } from 'react';
+import { partOptions } from './particle-options';
+import Clarifai from 'clarifai';
+import FaceRecog from './components/facerecog/FaceRecog';
+import Particles from "react-tsparticles";
+import './App.css';
 
-const partOptions = {
-  "particles": {
-    "number": {
-      "value": 80,
-      "density": {
-        "enable": true,
-        "value_area": 400
-      }
-    },
-    "color": {
-      "value": "#ffffff"
-    },
-    "shape": {
-      "type": "circle",
-      "stroke": {
-        "width": 0,
-        "color": "#000000"
-      },
-      "polygon": {
-        "nb_sides": 5
-      },
-      "image": {
-        "src": "img/github.svg",
-        "width": 100,
-        "height": 100
-      }
-    },
-    "opacity": {
-      "value": 0.5,
-      "random": false,
-      "anim": {
-        "enable": false,
-        "speed": 1,
-        "opacity_min": 0.1,
-        "sync": false
-      }
-    },
-    "size": {
-      "value": 3,
-      "random": true,
-      "anim": {
-        "enable": false,
-        "speed": 40,
-        "size_min": 0.1,
-        "sync": false
-      }
-    },
-    "line_linked": {
-      "enable": true,
-      "distance": 150,
-      "color": "#ffffff",
-      "opacity": 0.4,
-      "width": 1
-    },
-    "move": {
-      "enable": true,
-      "speed": 1,
-      "direction": "random",
-      "random": true,
-      "straight": true,
-      "out_mode": "out",
-      "bounce": false,
-      "attract": {
-        "enable": false,
-        "rotateX": 600,
-        "rotateY": 1200
-      }
-    }
-  },
-  "interactivity": {
-    "detect_on": "window",
-    "events": {
-      "onhover": {
-        "enable": true,
-        "mode": "grab"
-      },
-      "onclick": {
-        "enable": true,
-        "mode": "push"
-      },
-      "resize": true
-    },
-    "modes": {
-      "grab": {
-        "distance": 250,
-        "line_linked": {
-          "opacity": 1
-        }
-      },
-      "bubble": {
-        "distance": 400,
-        "size": 40,
-        "duration": 2,
-        "opacity": 8,
-        "speed": 3
-      },
-      "repulse": {
-        "distance": 200,
-        "duration": 0.4
-      },
-      "push": {
-        "particles_nb": 4
-      },
-      "remove": {
-        "particles_nb": 2
-      }
-    }
-  },
-  "retina_detect": false
-};
+const app = new Clarifai.App({
+  apiKey: '4452fe136d6644b8a83f40d56ad60bea'
+});
 
 class App extends Component {
+  constructor(props) {
+    super(props);
+    console.log('App constructor : ',window.innerWidth);
+    this.state = {
+      input:'',
+      boxes: []
+    }
+  }
+
+  onInputChange = (event) => {    
+    this.setState( {
+        input: event.target.value,
+        boxes: []
+    })
+  };
+
+  onBtnSubmit = (event) => {
+    app.models.initModel({id: 'd02b4508df58432fbb84e800597b8959'})
+    .then(detectFaceModel => {
+      if (this.state.input !=='') {
+        return detectFaceModel.predict(this.state.input);
+      }
+    })
+    .then(response => (response['outputs'][0]['data']['regions']) ) //Return regions
+    .then(regions => {      
+      const boxes = regions.map( (region, index) => {
+        return ( region.region_info.bounding_box );
+      });    
+      this.setState( { boxes: boxes } );
+      console.log('app.js : boxes : ',boxes)
+    })
+  }
   render() {
     return (
       <div className="App">
-        <Particles className='particles' params={ partOptions }/>
+        <Particles id='tsparticles' className='particles' options={ partOptions }/>
         <div className='flex justify-between'>
           <Logo />
           <Navigation />
         </div>
         <Rank />
-        <ImageLinkForm />
-        { /*
-        <FaceRecog /> 
-      */}
+        <ImageLinkForm onInputChange={this.onInputChange} onBtnSubmit={this.onBtnSubmit} />
+        <FaceRecog boxes={this.state.boxes} imgURL={this.state.input} />              
       </div>
     );
   }

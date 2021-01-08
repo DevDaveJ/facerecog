@@ -1,6 +1,7 @@
 import React from 'react';
+import './ImageLinkForm.css';
 
-const ImageLinkForm = () => {
+const ImageLinkForm = ( { onInputChange, onBtnSubmit } ) => {
 	return(
 		<div>
 			<p className='f4'>
@@ -9,11 +10,14 @@ const ImageLinkForm = () => {
 			<p className='f5'>
 				{'Enter the URL of an image and click \'Detect\'.'}
 			</p>
-			<div id='formId' className='center pa4 w-60 br3 shadow-1'>
-				<input id='inputId' className=' pa2 w-100 center' type='text'/>
-				<button id='buttonId' className='w-50 grow link ph3 pv2 dib black bg-light-purple'>
-					Detect
-				</button>
+
+			<div id='formId' className='center pa3 w-100 w-80-ns br3 shadow-1'>
+				<input id='inputId' onChange={onInputChange} 
+					className='w-100 pa2 dib-ns w-70-ns db' 
+					type='text'/>
+				<button id='buttonId' 
+					className='w-100 pv2 ph3 grow br-pill link white fw6 f4 mh1 dib-ns w-20-ns'
+					onClick={onBtnSubmit}>Detect</button>
 			</div>
 		</div>
 	);
