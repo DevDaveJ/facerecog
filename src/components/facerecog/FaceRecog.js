@@ -4,16 +4,12 @@ import './FaceRecognition.css';
 class FaceRecog extends Component {	
 	constructor(props) {
 		super(props);
-		this.pc = 0.8;
-		this.imgRef = React.createRef();
-		this.imageWidth = null;
-		this.imageHeight = null;
 		this.state = {
 			imageWidth: null,
 			imageHeight: null
 		}
 	}
-	updateDims = () => {
+	updateDims = (event) => {
 		// Method 1: DOM element
 		const image = document.getElementById('input-image');
 
@@ -21,8 +17,6 @@ class FaceRecog extends Component {
 			imageWidth: image.width,
 			imageHeight: image.height
 		})
-		this.imageWidth = image.width;
-		this.imageHeight = image.height;
 	}
 
   	componentDidMount() {
@@ -48,8 +42,10 @@ class FaceRecog extends Component {
 	render() {
 		return(
 			<div className='center'>
-				<div className={`relative mt4 center w-${this.pc * 100}`}  >
-					<img id='input-image' alt='' height='auto' ref={this.imgRef} src={this.props.imgURL} />
+				<div className='relative mt4 center w-80'>
+					<img id='input-image' alt='' height='auto'
+						onLoad={this.updateDims}  
+						src={this.props.imgURL} />
 					{this.props.boxes.map((box, index) => {
 						const { topRow, rightCol, bottomRow, leftCol} = this.calculateFaceLocn(box);
 						return(
@@ -60,32 +56,6 @@ class FaceRecog extends Component {
 				</div>
 			</div>
 		)
-	}
-	componentDidUpdate(prevProps) {
-		// Typical usage (don't forget to compare props):
-
-		if (this.props.imgURL !== prevProps.imgURL) {
-			if (this.props.imgURL !== null) {
-				const image = new Image();
-				image.src = this.props.imgURL;
-				image.onload = () => {
-					const ratio = (image.width > window.innerWidth * this.pc) ? (window.innerWidth * this.pc / image.width) : 1;
-
-					this.imageWidth = (this.imgRef.current.clientWidth) || (image.width * ratio);
-					this.imageHeight = (this.imgRef.current.clientHeight) || (image.height * ratio);
-
-					this.setState( {
-						imageWidth: this.imageWidth,
-						imageHeight: this.imageHeight
-					});
-
-					console.log('imgRef: ',this.imgRef.current.clientWidth,' ',this.imgRef.current.clientHeight,
-					'. image: ',image.height,' ',image.width,' this.dims: ', this.imageWidth,' ',this.imageHeight)
-				}
-			} else {
-				console.log('image URL is empty string')
-			}
-		}	
 	}
 }
 
