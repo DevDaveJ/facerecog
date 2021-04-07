@@ -1,7 +1,6 @@
 import Navigation from './components/navigation/Navigation';
 import Logo from './components/logo/Logo';
 import ImageLinkForm from './components/imagelinkform/ImageLinkForm';
-import Rank from './components/rank/Rank';
 import React, { Component } from 'react';
 import { partOptions } from './particle-options';
 import Clarifai from 'clarifai';
@@ -75,7 +74,6 @@ class App extends Component {
         </div>
         { (route === 'home')
           ? <div>
-              <Rank />
               <ImageLinkForm onInputChange={this.onInputChange} onBtnSubmit={this.onBtnSubmit} />
               <FaceRecog boxes={boxes} imgURL={input} />              
             </div>
