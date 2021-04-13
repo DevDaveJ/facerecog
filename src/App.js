@@ -8,11 +8,12 @@ import FaceRecog from './components/facerecog/FaceRecog';
 import Particles from "react-tsparticles";
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
-
 import './App.css';
 
+const apiKey = process.env.REACT_APP_CLARIFAI_API_KEY;
+
 const app = new Clarifai.App({
-  apiKey: '4452fe136d6644b8a83f40d56ad60bea'
+  apiKey: apiKey
 });
 
 class App extends Component {
