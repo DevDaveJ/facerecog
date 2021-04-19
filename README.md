@@ -13,7 +13,7 @@ You will also see any lint errors in the console.
 
 ## Usage
 
-After starting the app by running `npm start`, click on the Sign-In button (not implemented). You will then be presented with a field to enter the URL of an image. Image is loaded on pasting the url. Attempt to recognise faces takes place on clicking the 'Detect' button.
+After starting the app by running `npm start`, click on the Sign-In button. You will then be presented with a field to enter the URL of an image. Image is loaded on pasting the url. Attempt to recognise faces takes place on clicking the 'Detect' button.
 
 ## Other npm scripts
 ### `npm test`
