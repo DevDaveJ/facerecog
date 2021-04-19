@@ -3,6 +3,7 @@ import React from 'react';
 class Signin extends React.Component {
     constructor(props) {
         super(props);
+        console.log('props = ',props)
         this.state = {
             email: '',
             password: ''
@@ -50,7 +51,7 @@ class Signin extends React.Component {
                                 className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                 type="email" 
                                 name="email"  
-                                id="email" 
+                                id="email"
                                 onChange={this.handleChange}
                             />
                         </div>
@@ -60,7 +61,8 @@ class Signin extends React.Component {
                                 className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                                 type="password" 
                                 name="password"  
-                                id="password" 
+                                id="password"
+                                autoComplete="new-password"
                                 onChange={this.handleChange}
                             />
                         </div>
