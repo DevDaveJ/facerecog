@@ -8,9 +8,12 @@ import FaceRecog from './components/facerecog/FaceRecog';
 import Particles from "react-tsparticles";
 import Signin from './components/signin/Signin';
 import Register from './components/register/Register';
+import Rank from './components/Rank/Rank';
 import './App.css';
 
 const apiKey = process.env.REACT_APP_CLARIFAI_API_KEY;
+const port = process.env.REACT_APP_SVR_PORT;
+console.log('port = ',port, apiKey);
 
 const app = new Clarifai.App({
   apiKey: apiKey
@@ -23,8 +26,27 @@ class App extends Component {
       input:'',
       boxes: [],
       route: 'signin',
-      isSignedIn: false
-    }
+      isSignedIn: false,
+      user: {
+        id: '',
+        email: '',
+        name: '',
+        entries: 0,
+        joined: ''
+      }
+    };
+  }
+
+  loadUser = (data) => {
+    this.setState({
+      user: data
+    })
+  }
+
+  componentDidMount() {
+    fetch(`http://localhost:${port}`)
+      .then(response => response.json())
+      .then(console.log)
   }
 
   onInputChange = (event) => {    
@@ -73,14 +95,29 @@ class App extends Component {
           <Logo />
           <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
         </div>
+        {
+          (isSignedIn) ?
+            (<Rank
+              name={this.state.user.name}
+              entries={this.state.user.entries}
+            />) :
+              null
+        }
         { (route === 'home')
           ? <div>
               <ImageLinkForm onInputChange={this.onInputChange} onBtnSubmit={this.onBtnSubmit} />
               <FaceRecog boxes={boxes} imgURL={input} />              
             </div>
           : ( (route === 'signin')
-              ? <Signin isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
-              : <Register onRouteChange={onRouteChange} />
+              ? <Signin 
+                  port={port} 
+                  isSignedIn={isSignedIn} 
+                  loadUser={this.loadUser}
+                  onRouteChange={onRouteChange} />
+              : <Register 
+                  port={port} 
+                  loadUser={this.loadUser} 
+                  onRouteChange={onRouteChange} />
           )
         }
       </div>
