@@ -3,7 +3,6 @@ import Logo from './components/logo/Logo';
 import ImageLinkForm from './components/imagelinkform/ImageLinkForm';
 import React, { Component } from 'react';
 import { partOptions } from './particle-options';
-import Clarifai from 'clarifai';
 import FaceRecog from './components/facerecog/FaceRecog';
 import Particles from "react-tsparticles";
 import Signin from './components/signin/Signin';
@@ -11,42 +10,36 @@ import Register from './components/register/Register';
 import Rank from './components/Rank/Rank';
 import './App.css';
 
-const apiKey = process.env.REACT_APP_CLARIFAI_API_KEY;
-const port = process.env.REACT_APP_SVR_PORT;
-console.log('port = ',port, apiKey);
-
-const app = new Clarifai.App({
-  apiKey: apiKey
-});
+const initialState = {
+  input:'',
+  boxes: [],
+  route: 'signin',
+  isSignedIn: false,
+  user: {
+    id: '',
+    email: '',
+    name: '',
+    entries: 0,
+    joined: ''
+  }
+}
 
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      input:'',
-      boxes: [],
-      route: 'signin',
-      isSignedIn: false,
-      user: {
-        id: '',
-        email: '',
-        name: '',
-        entries: 0,
-        joined: ''
-      }
-    };
+    this.state = (initialState)
   }
 
   loadUser = (data) => {
     this.setState({
-      user: data
+      user: {
+        id: data.id,
+        email: data.email,
+        name: data.name,
+        entries: data.entries,
+        joined: data.joined
+      }
     })
-  }
-
-  componentDidMount() {
-    fetch(`http://localhost:${port}`)
-      .then(response => response.json())
-      .then(console.log)
   }
 
   onInputChange = (event) => {    
@@ -57,68 +50,83 @@ class App extends Component {
   };
 
   onBtnSubmit = (event) => {
-    app.models.initModel({id: 'd02b4508df58432fbb84e800597b8959'})
-    .then(detectFaceModel => {
-      if (this.state.input !=='') {
-        return detectFaceModel.predict(this.state.input);
+    fetch(`https://facerecog-svr.herokuapp.com/imageurl`,{
+      method: 'post',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        input: this.state.input
+      })
+    })
+    .then(response => response.json())
+    .then(response => {
+      if (response) {
+        fetch(`https://facerecog-svr.herokuapp.com/image`, {
+          method: 'put',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            id: this.state.user.id
+          })
+        })
+        .then(response => response.json())
+        .then(count => {
+          this.setState(Object.assign(this.state.user, { entries: count }))
+        })
+        .catch(console.log)
+
+        const regions = response['outputs'][0]['data']['regions'];
+        const boxes = regions.map( (region, index) => {
+          return ( region.region_info.bounding_box );
+        });    
+        this.setState( { boxes: boxes } );
       }
     })
-    .then(response => (response['outputs'][0]['data']['regions']) ) //Return regions
-    .then(regions => {      
-      const boxes = regions.map( (region, index) => {
-        return ( region.region_info.bounding_box );
-      });    
-      this.setState( { boxes: boxes } );
-      console.log('app.js : boxes : ',boxes)
-    })
+    .catch(err => console.log(err))
   }
 
   onRouteChange = (route) => {
     this.setState({route: route});
 
-    this.setState( { isSignedIn: (route==='home') });
-
-    if (route==='signin') {
-      this.setState({
-        input: '', boxes: []
-      })
+    if (route === 'signout') {
+      this.setState(initialState)
+    } else if (route === 'home') {
+      this.setState({isSignedIn: true})
     }
   }
 
   render() {
     const { isSignedIn, route, boxes, input } = this.state;
-    const { onRouteChange } = this;
+  
     return (
       <div className="App">
         <Particles id='tsparticles' className='particles' options={ partOptions }/>
         <div className='flex justify-between'>
           <Logo />
-          <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
+          <Navigation isSignedIn={isSignedIn} onRouteChange={this.onRouteChange} />
         </div>
-        {
-          (isSignedIn) ?
-            (<Rank
-              name={this.state.user.name}
-              entries={this.state.user.entries}
-            />) :
-              null
-        }
-        { (route === 'home')
-          ? <div>
-              <ImageLinkForm onInputChange={this.onInputChange} onBtnSubmit={this.onBtnSubmit} />
-              <FaceRecog boxes={boxes} imgURL={input} />              
-            </div>
-          : ( (route === 'signin')
-              ? <Signin 
-                  port={port} 
-                  isSignedIn={isSignedIn} 
-                  loadUser={this.loadUser}
-                  onRouteChange={onRouteChange} />
-              : <Register 
-                  port={port} 
-                  loadUser={this.loadUser} 
-                  onRouteChange={onRouteChange} />
-          )
+        { (route==='signin') ?
+            (<Signin 
+              port={this.props.port} 
+              loadUser={this.loadUser}
+              onRouteChange={this.onRouteChange} 
+            />)
+          : 
+            (route==='register') ?
+              (<Register 
+                port={this.props.port} 
+                loadUser={this.loadUser} 
+                onRouteChange={this.onRouteChange} 
+              />) 
+            :
+              (<div>
+                <Rank
+                  name={this.state.user.name}
+                  entries={this.state.user.entries}
+                />
+                <ImageLinkForm onInputChange={this.onInputChange} onBtnSubmit={this.onBtnSubmit} />
+                <FaceRecog boxes={boxes} imgURL={input} />              
+              </div>)
         }
       </div>
     );

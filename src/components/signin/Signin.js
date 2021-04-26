@@ -3,7 +3,6 @@ import React from 'react';
 class Signin extends React.Component {
     constructor(props) {
         super(props);
-        console.log('props = ',props)
         this.state = {
             email: '',
             password: ''
@@ -17,23 +16,37 @@ class Signin extends React.Component {
 
     onSubmitSignIn = (event) => {
         event.preventDefault();
-        fetch(`http://localhost:${this.props.port}/signin`, {
+        const { email, password } = this.state;
+        if ( !email || !password) {
+            console.log('incorrect login submission');
+            alert('incorrect login submission');
+            return;
+        }    
+
+        fetch(`https://facerecog-svr.herokuapp.com/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
-                email: this.state.email,
-                password: this.state.password
+                email: email,
+                password: password
             })
         })
         .then(response => response.json())
-        .then(user => {
-            if (user.id) {
+        .then(rtnData => {
+            if (rtnData.data.length>0) {
+                console.log('return data: ',rtnData.data[0]);
+
+                const user = rtnData.data[0];
                 this.props.loadUser(user);
                 this.props.onRouteChange('home');
+            } else {
+                console.log(rtnData.mesg);
+                alert(rtnData.mesg);
             }
         })
+        .catch(err => console.log(err))
     }
     
     render(){
@@ -66,7 +79,6 @@ class Signin extends React.Component {
                                 onChange={this.handleChange}
                             />
                         </div>
-                        {/* <label className="pa0 ma0 lh-copy f6 pointer"><input type="checkbox" /> Remember me</label> */}
                         </fieldset>
                         <div className="">
                         <input 
@@ -77,7 +89,6 @@ class Signin extends React.Component {
                         </div>
                         <div className="lh-copy mt3">
                         <p onClick={() => onRouteChange('register')} className="f6 link dim black db pointer">Register</p>
-                        {/* <a href="#0" className="f6 link dim black db">Forgot your password?</a> */}
                         </div>
                     </form>
                 </main>

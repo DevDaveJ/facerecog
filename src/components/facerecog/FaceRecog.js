@@ -17,7 +17,6 @@ class FaceRecog extends Component {
 			imageWidth: image.width,
 			imageHeight: image.height
 		})
-		console.log('updateDims..')
 	}
 
   	componentDidMount() {
