@@ -50,7 +50,7 @@ class App extends Component {
   };
 
   onBtnSubmit = (event) => {
-    fetch(`https://facerecog-svr.herokuapp.com/imageurl`,{
+    fetch(`${process.env.REACT_APP_SVR}/imageurl`,{
       method: 'post',
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -60,7 +60,7 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       if (response) {
-        fetch(`https://facerecog-svr.herokuapp.com/image`, {
+        fetch(`${process.env.REACT_APP_SVR}/image`, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json'

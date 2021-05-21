@@ -23,7 +23,7 @@ class Signin extends React.Component {
             return;
         }    
 
-        fetch(`https://facerecog-svr.herokuapp.com/signin`, {
+        fetch(`${process.env.REACT_APP_SVR}/signin`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

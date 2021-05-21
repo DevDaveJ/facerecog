@@ -23,7 +23,7 @@ class Register extends React.Component {
             alert('incorrect form submission');
             return;
         }    
-        fetch(`https://facerecog-svr.herokuapp.com/register`, {
+        fetch(`${process.env.REACT_APP_SVR}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
