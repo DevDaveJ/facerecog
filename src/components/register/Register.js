@@ -23,7 +23,10 @@ class Register extends React.Component {
             alert('incorrect form submission');
             return;
         }    
-        fetch(`${process.env.REACT_APP_SVR}/register`, {
+        const url = `${this.props.baseURL}/register`;
+        console.log(`Going to do fetch with ${url}`);
+
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

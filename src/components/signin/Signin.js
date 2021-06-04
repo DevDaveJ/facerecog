@@ -3,6 +3,7 @@ import React from 'react';
 class Signin extends React.Component {
     constructor(props) {
         super(props);
+        console.log('props in Signin: ',props);
         this.state = {
             email: '',
             password: ''
@@ -22,8 +23,10 @@ class Signin extends React.Component {
             alert('incorrect login submission');
             return;
         }    
+        const url = `${this.props.baseURL}/signin`;
+        console.log(`Going to do fetch with ${url}`);
 
-        fetch(`${process.env.REACT_APP_SVR}/signin`, {
+        fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

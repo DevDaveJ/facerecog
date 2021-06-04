@@ -27,7 +27,7 @@ const initialState = {
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = (initialState)
+    this.state = (initialState);
   }
 
   loadUser = (data) => {
@@ -50,7 +50,10 @@ class App extends Component {
   };
 
   onBtnSubmit = (event) => {
-    fetch(`${process.env.REACT_APP_SVR}/imageurl`,{
+    const url = `${this.props.env.baseURL}/imageurl`;
+    console.log(`Going to do fetch with ${url}`);
+
+    fetch(url,{
       method: 'post',
       headers: { 'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -60,7 +63,10 @@ class App extends Component {
     .then(response => response.json())
     .then(response => {
       if (response) {
-        fetch(`${process.env.REACT_APP_SVR}/image`, {
+        const url = `${this.props.env.baseURL}/image`;
+        console.log(`Going to do fetch with ${url}`);
+            
+        fetch(url, {
           method: 'put',
           headers: {
             'Content-Type': 'application/json'
@@ -107,14 +113,14 @@ class App extends Component {
         </div>
         { (route==='signin') ?
             (<Signin 
-              port={this.props.port} 
+              {...this.props.env}
               loadUser={this.loadUser}
               onRouteChange={this.onRouteChange} 
             />)
           : 
             (route==='register') ?
               (<Register 
-                port={this.props.port} 
+                {...this.props.env}
                 loadUser={this.loadUser} 
                 onRouteChange={this.onRouteChange} 
               />) 
