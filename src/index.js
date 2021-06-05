@@ -5,7 +5,7 @@ import App from './App';
 import 'tachyons';
 
 const PORT = process.env.REACT_APP_SVR_PORT ? (':' + process.env.REACT_APP_SVR_PORT) : '';
-const baseURL = `${process.env.REACT_APP_SVR}${PORT}`;
+const baseURL = `${process.env.REACT_APP_SVR}${PORT}/api`;
 console.log(`Port passed down in props.env = ${PORT},
   Base URL = ${baseURL}`);
 
