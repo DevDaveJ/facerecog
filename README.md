@@ -15,20 +15,13 @@ You will also see any lint errors in the console.
 
 After starting the app by running `npm start`, click on the Sign-In button. You will then be presented with a field to enter the URL of an image. Image is loaded on pasting the url. Attempt to recognise faces takes place on clicking the 'Detect' button.
 
-## Other npm scripts
-### `npm test`
+## Stack
+Project is deployed in two places:
+* nginx stack - reverse proxying to nodejs express
+* heroku Server
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+and it uses the following tech stack:
+* postgresql database - to store users details with a hashed key
+* reactjs (Frontend)
+* nodejs express server (Backend)
+* react-router
