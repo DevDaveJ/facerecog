@@ -3,7 +3,6 @@ import React from 'react';
 class Signin extends React.Component {
     constructor(props) {
         super(props);
-        console.log('props in Signin: ',props);
         this.state = {
             email: '',
             password: ''
@@ -24,8 +23,6 @@ class Signin extends React.Component {
             return;
         }    
         const url = `${this.props.baseURL}/signin`;
-        console.log(`Going to do fetch with ${url}`);
-
         fetch(url, {
             method: 'POST',
             headers: {
@@ -39,8 +36,6 @@ class Signin extends React.Component {
         .then(response => response.json())
         .then(rtnData => {
             if (rtnData.data.length>0) {
-                console.log('return data: ',rtnData.data[0]);
-
                 const user = rtnData.data[0];
                 this.props.loadUser(user);
                 this.props.onRouteChange('home');
