@@ -21,7 +21,7 @@ Project is deployed in two places:
 * heroku Server
 
 and it uses the following tech stack:
-* postgresql database
+* postgresql database - to store users details with a hashed key
 * reactjs (Frontend)
 * nodejs express server (Backend)
 * react-router
