@@ -19,3 +19,9 @@ After starting the app by running `npm start`, click on the Sign-In button. You 
 Project is deployed in two places:
 * nginx stack - reverse proxying to nodejs express
 * heroku Server
+
+and it uses the following tech stack:
+* postgresql database
+* reactjs (Frontend)
+* nodejs express server (Backend)
+* react-router
