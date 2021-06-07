@@ -51,8 +51,6 @@ class App extends Component {
 
   onBtnSubmit = (event) => {
     const url = `${this.props.env.baseURL}/imageurl`;
-    console.log(`Going to do fetch with ${url}`);
-
     fetch(url,{
       method: 'post',
       headers: { 'Content-Type': 'application/json'},
@@ -60,12 +58,10 @@ class App extends Component {
         input: this.state.input
       })
     })
-    .then(response => response.json())
+    .then(response => response.ok ? response.json() : null)
     .then(response => {
       if (response) {
         const url = `${this.props.env.baseURL}/image`;
-        console.log(`Going to do fetch with ${url}`);
-            
         fetch(url, {
           method: 'put',
           headers: {

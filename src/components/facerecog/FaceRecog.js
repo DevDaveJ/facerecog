@@ -10,7 +10,6 @@ class FaceRecog extends Component {
 		}
 	}
 	updateDims = (event) => {
-		// Method 1: DOM element
 		const image = document.getElementById('input-image');
 
 		this.setState({
