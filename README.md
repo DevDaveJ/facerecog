@@ -19,7 +19,8 @@ The best way to experiment is by registering as a new user (You do *NOT* have to
 After starting the app by running `npm start`, click on the Sign-In button. You will then be presented with a field to enter the URL of an image. Image is loaded on pasting the url. Attempt to recognise faces takes place on clicking the 'Detect' button.
 
 ## Stack
-* nginx stack - reverse proxying
+* Debian 10 on Google Cloud instance
+* nginx stack
 * postgresql database - to store users details with a hashed key
 * reactjs (Frontend)
 * nodejs express server (Backend)
