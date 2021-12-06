@@ -12,7 +12,7 @@ This simple project is a concept demonstration. The aim is to enter an image and
 The [backend](https://github.com/DevDaveJ/facerecog-svr) requires an api key from Clarifai to function. Both frontend and backend make use of environment files.
 
 ## Usage
-The app is available [here](https://face.stonetech.io). The initial screen presented is a signin, where you can create a (test) user (You do *NOT* have to enter a real email address!! This is a demo project for illustrative purposes). You will then be presented with a field to enter the URL of an image. Image is loaded on pasting the url. Attempt to recognise faces takes place on clicking the 'Detect' button.
+The app is available [here](https://face.stonetech.io). The initial screen presented is a signin, where you can create a (test) user (You do *NOT* have to enter a real email address!! This is a demo project to illustrate secure signin, amoung other things). OR, you can use "john@mail.com" / "cookies" as a login.You will then be presented with a field to enter the URL of an image. Image is loaded on pasting the url. Attempt to recognise faces takes place on clicking the 'Detect' button.
 These steps are demonstrated in this short video clip here:
 ### Watch this [demo video](https://share.getcloudapp.com/nOu5xqOp). 
 
