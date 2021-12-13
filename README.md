@@ -1,4 +1,4 @@
-# Facial Recognition
+# Facial Detection
 This simple project is a concept demonstration. The aim is to enter an image and have the app detect any faces in the image, if any. It was tested with urls of online images, and was built using [Create React App](https://github.com/facebook/create-react-app). The app is responsive and makes use of the [Clarifai machine-learning API](https://www.clarifai.com/models/ai-face-detection). This repository forms the front-end built as a React app, and requires a backend server. The server software is at [this repository](https://github.com/DevDaveJ/facerecog-svr), and it handles connecting to Clarifai and recording each time a user submits an image for facial detection. 
 
 ## Stack (front & back ends)
