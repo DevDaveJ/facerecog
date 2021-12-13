@@ -15,7 +15,8 @@
 .DS_Store
 .env
 .env.*
-
+*.log
+*.txt
 Image-List.rtf
 
 npm-debug.log*

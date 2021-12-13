@@ -36,7 +36,7 @@ export const partOptions = {
         }
       },
       "size": {
-        "value": 3,
+        "value": 1,
         "random": true,
         "anim": {
           "enable": false,
