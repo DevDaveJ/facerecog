@@ -58,35 +58,35 @@ class App extends Component {
 				input: this.state.input
 			})
 		})
-			.then(response => response.ok ? response.json() : null)
-			.then(response => {
-				console.log({ response });
-				
-				if (response) {
-					const url = `${this.props.env.baseURL}/image`;
-					fetch(url, {
-						method: 'put',
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body: JSON.stringify({
-							id: this.state.user.id
-						})
+		.then(response => response.ok ? response.json() : null)
+		.then(response => {
+			console.log({ response });
+			
+			if (response) {
+				const url = `${this.props.env.baseURL}/image`;
+				fetch(url, {
+					method: 'put',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						id: this.state.user.id
 					})
-						.then(response => response.json())
-						.then(count => {
-							this.setState(Object.assign(this.state.user, { entries: count }))
-						})
-						.catch(console.log)
+				})
+				.then(response => response.json())
+				.then(count => {
+					this.setState(Object.assign(this.state.user, { entries: count }))
+				})
+				.catch(console.log)
 
-					const regions = response['outputs'][0]['data']['regions'];
-					const boxes = regions.map((region, index) => {
-						return (region.region_info.bounding_box);
-					});
-					this.setState({ boxes: boxes });
-				}
-			})
-			.catch(err => console.log(err))
+				const regions = response['outputs'][0]['data']['regions'];
+				const boxes = regions.map((region, index) => {
+					return (region.region_info.bounding_box);
+				});
+				this.setState({ boxes: boxes });
+			}
+		})
+		.catch(err => console.log(err))
 	}
 
 	onRouteChange = (route) => {
