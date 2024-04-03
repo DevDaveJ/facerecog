@@ -42,6 +42,7 @@
 	},
 	"_id": "facerecog@0.1.0",
 	"devDependencies": {
+		"@babel/plugin-transform-private-property-in-object": "^7.24.1",
 		"cross-env": "^7.0.3",
 		"react-refresh": "^0.11.0"
 	}
