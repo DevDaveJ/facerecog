@@ -60,8 +60,6 @@ class App extends Component {
 		})
 		.then(response => response.ok ? response.json() : null)
 		.then(response => {
-			console.log({ response });
-			
 			if (response) {
 				const url = `${this.props.env.baseURL}/image`;
 				fetch(url, {
@@ -79,8 +77,7 @@ class App extends Component {
 				})
 				.catch(console.log)
 
-				const regions = response['outputs'][0]['data']['regions'];
-				const boxes = regions.map((region, index) => {
+				const boxes = response.forEach(region => {
 					return (region.region_info.bounding_box);
 				});
 				this.setState({ boxes: boxes });
