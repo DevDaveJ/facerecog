@@ -77,7 +77,7 @@ class App extends Component {
 				})
 				.catch(console.log)
 
-				const boxes = response.forEach(region => {
+				const boxes = response.map(region => {
 					return (region.region_info.bounding_box);
 				});
 				this.setState({ boxes: boxes });
