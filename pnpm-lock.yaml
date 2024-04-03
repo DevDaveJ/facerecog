@@ -1,6 +1,7 @@
 lockfileVersion: 5.3
 
 specifiers:
+  '@babel/plugin-proposal-private-property-in-object': ^7.21.11
   '@babel/plugin-transform-private-property-in-object': ^7.24.1
   '@testing-library/jest-dom': ^5.16.0
   '@testing-library/react': ^11.2.7
@@ -30,6 +31,7 @@ dependencies:
   web-vitals: 0.2.4
 
 devDependencies:
+  '@babel/plugin-proposal-private-property-in-object': 7.21.11
   '@babel/plugin-transform-private-property-in-object': 7.24.1
   cross-env: 7.0.3
   react-refresh: 0.11.0
@@ -615,6 +617,19 @@ packages:
     dependencies:
       '@babel/core': 7.24.3
     dev: false
+
+  /@babel/plugin-proposal-private-property-in-object/7.21.11:
+    resolution: {integrity: sha512-0QZ8qP/3RLDVBwBFoWAwCtgcDZJVwA5LUJRZU8x2YFfKNuFq161wK3cuGrALu5yiPu+vzwTAg/sMWVNeWeNyaw==}
+    engines: {node: '>=6.9.0'}
+    deprecated: This proposal has been merged to the ECMAScript standard and thus this plugin is no longer maintained. Please use @babel/plugin-transform-private-property-in-object instead.
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/helper-annotate-as-pure': 7.22.5
+      '@babel/helper-create-class-features-plugin': 7.24.1
+      '@babel/helper-plugin-utils': 7.24.0
+      '@babel/plugin-syntax-private-property-in-object': 7.14.5
+    dev: true
 
   /@babel/plugin-syntax-async-generators/7.8.4_@babel+core@7.12.3:
     resolution: {integrity: sha512-tycmZxkGfZaxhMRbXlPXuVFpdWlXpir2W4AMhSJgRKzk/eDlIXOhb2LHWoLpDF7TEHylV5zNhykX6KAgHJmTNw==}
